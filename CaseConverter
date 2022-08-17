@@ -1,0 +1,166 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<!--
+                заметки по задачам в общем
+        если кнопка1 то сменить1 текст в текст ареа:
+        проверка кнопки
+        по ИД
+        по нажатию
+        доступ к текст ареа
+        по селектору
+        операция над текстом
+        to upper
+        запись текста
+
+                ППР
+    размечаем страницу начерно
+    создаем кнопки с разными названиями + id + click соотв тому как будем менять текст.
+    В 1+2кн. в параметрах напрямую запишем команду JS для смены значения в textarea: onclick = "JS code"
+    в 3+4кн. впишем функции JS: onclick ='Function()'
+    а сами функции в теге <script>JS</script>
+        получить доступ к тексту
+        делаем массив: сплитнуть по символам деления
+        Обработали массив: .map(первый символ вверх, прочие вниз)
+        Сложили в стринг: join(пробел)
+        присвоить значение
+-->
+<body>
+    <div class="title">Case Converter</div>
+
+    <!--    Текст для отладки/теста    -->
+    <textarea id="ta"></textarea>
+
+    <!--    JavaScript code    -->
+    <script type="text/javascript">
+        /* Псевдокод
+
+           Видение
+        Разделить на слова.
+        Слова разделить на символы
+        первый символ большим
+        прочие маленькими
+        Собрать  в кучу
+        для удобства применим функции и переменные
+        короткие команды запишем напрямую
+
+            для Отладки:
+        Применяем Текстовую функцию
+        function hello(){
+            console.log("helloMessage");
+        }
+        Или напрямую выводи каждую строку кода в консоль
+        console.log(document.getElementById('ta').value = text.split(/\.\s/)):
+
+        Потом жмем поочереди ряд команд
+        ctrl+S(сохр)
+        ctrl+alt+y(релоад)
+        shift+f10((run the code)
+        f12(отладчик в браузере)
+
+
+                Функции для каждой кнопки
+        UpperCase(ПЕРВЫЕ БУКВЫ ДЕЛАЕМ БОЛЬШИМИ)
+        toUpper()
+
+        При нажатии на кнопку "Upper case" пусть текст в textarea сменится на другой
+        Для этого получим доступ к к блоку ХТМЛ по textarea + ID +.value и присвоим соотв значения в виде ЗАГЛАВНОГО текста.
+        <button id = "upper-case" onclick="document.getElementById('ta').value = 'wtf'">Upper case</button>
+
+        То же с применением функций пока что не работает, начинаю отладку.
+        Настроил, все ок, функции работают, были ошибки в синаксисе.
+
+
+        LowerCase(все буквы сделать маленькими)
+        toLower()
+
+        Proper Case: (Каждая первая буква станет большой)
+        код: первая буква вверх прочие вниз.
+        Как это сделать?
+        так как текст это массив из символов, то первый сделаем Большим а прочие маленькими
+        для этого получаем доступ к тексту применяя доступ по ID+.value
+        потом первый сделаем Большим(помни про нумерацию элем массива и пробелы которые станут ими)
+        Отрежем все после первого и сделаем маленькими
+        потом все это сплюсовываем
+
+        Итак:
+        делаем массив: сплитнуть по всевозможным символам/для отладки только пробелы split(пробел)
+        полученный массив перебрать циклом и применить функцию upperFirstLetter()-нет, есть готовая функция.map()
+        применим .map(первый символ вверх, прочие вниз) + join(пробел)
+        */
+
+        // вспомогательная переменная для .map()
+        let capitalizeBegin = (str) => str[0].toUpperCase() + str.slice(1).toLowerCase();
+
+        // ProperCase
+        function capitalizeAllFirstLetters() {
+            let text = document.getElementById('ta').value;
+            return document.getElementById('ta').value = text.split(' ').map(capitalizeBegin).join(' ');
+        }
+
+        /*
+            Sentence case(Первые буквы предложения сделать большими)
+        База как в Proper Case: (Каждая первая буква станет большой)
+
+        делаем массив: сплитнуть по символам деления предложения
+            для отладки начни с split(пробел)
+            для задания достаточно только по символам точка+пробел
+            примени RegularExpressions /symbol1symbol2symbol3/
+        Обработали массив: .map(первый символ вверх, прочие вниз)
+        Сложили в стринг: join(пробел)
+        */
+
+        // SentenceCase
+        function upperFirstLetter(){
+            // доступ к значению в поле textarea по id (для отладки)
+            let text = document.getElementById('ta').value;
+            // получили доступ к значению в поле textarea по id
+            // ему присвоили другое значение - "операцию разделения и обработки текста."
+                // разделили текст на массив применяя RegularExpression через split(RegEx)
+                // каждый элемент обработали функцией "Первый символ Капсом следующие маленькими"
+                    // функцию сделали отдельно
+                // сложили массив в строку через join(точка пробел)
+            document.getElementById('ta').value = text.split(/\.\s/).map(capitalizeBegin).join('. ');
+        }
+        function download(filename, text) {
+            let element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+            element.setAttribute('download', filename);
+
+            element.style.display = 'none';
+            document.body.appendChild(element);
+
+           element.click();
+
+            document.body.removeChild(element);
+        }
+
+    </script>
+
+    <button id = "upper-case" onclick="document.getElementById('ta').value = document.getElementById('ta').value.toUpperCase()">
+        Upper case
+    </button>
+
+    <button id = "lower-case" onclick="document.getElementById('ta').value = document.getElementById('ta').value.toLowerCase()">
+        Lower case
+    </button>
+
+    <button id = "proper-case" onclick="capitalizeAllFirstLetters()">
+        Proper case
+    </button>
+
+    <button id = "sentence-case" onclick="upperFirstLetter()">
+        Sentence case
+    </button>
+
+    <button id = "save-text-file" onclick="download('text', document.getElementById('ta').value)">
+        Save Text File
+    </button>
+</body>
+</html>
+
+
